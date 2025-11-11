@@ -36,7 +36,7 @@ render_config = utils.Config(
     env=args.dataset,
 )
 
-pdb.set_trace()  #debug..................................................
+#pdb.set_trace()  #debug..................................................
 dataset = dataset_config()
 renderer = render_config()
 
