@@ -1059,11 +1059,11 @@ class GaussianDiffusion(nn.Module):
         # x = self.GD(x, xp1)
 
         ####################### SafeDiffusers 
-        x = xp1 # for training only
+        # x = xp1 # for training only
         # x = self.invariance(x, xp1)    # RoS
         # x = self.invariance_cf(x, xp1)  # RoS closed form
         # x = self.invariance_relax(x, xp1, t) # ReS
-        # x = self.invariance_relax_cf(x, xp1, t)   #ReS closed form    
+        x = self.invariance_relax_cf(x, xp1, t)   #ReS closed form    
         # x = self.invariance_time(x, xp1, t)   # TVS
         # x = self.invariance_time_cf(x, xp1, t)  # TVS closed form
         # x = self.invariance_relax_narrow(x, xp1, t)  # narrow passage case
@@ -1114,14 +1114,14 @@ class GaussianDiffusion(nn.Module):
             timesteps = torch.full((batch_size,), i, device=device, dtype=torch.long)
             x = self.p_sample(x, cond, timesteps)
             x = apply_conditioning(x, cond, self.action_dim)
-            # safe1.append(self.safe1.unsqueeze(0))
-            # safe2.append(self.safe2.unsqueeze(0))
+            safe1.append(self.safe1.unsqueeze(0))
+            safe2.append(self.safe2.unsqueeze(0))
             progress.update({'t': i})
 
             if return_diffusion: diffusion.append(x)
         
-        # self.safe1 = torch.cat(safe1, dim=0)
-        # self.safe2 = torch.cat(safe2, dim=0)
+        self.safe1 = torch.cat(safe1, dim=0)
+        self.safe2 = torch.cat(safe2, dim=0)
 
         progress.close()
         # pdb.set_trace()
