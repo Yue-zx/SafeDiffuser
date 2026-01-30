@@ -1061,9 +1061,9 @@ class GaussianDiffusion(nn.Module):
         ####################### SafeDiffusers 
         # x = xp1 # for training only
         # x = self.invariance(x, xp1)    # RoS
-        x = self.invariance_cf(x, xp1)  # RoS closed form
+        # x = self.invariance_cf(x, xp1)  # RoS closed form
         # x = self.invariance_relax(x, xp1, t) # ReS
-        # x = self.invariance_relax_cf(x, xp1, t)   #ReS closed form    
+        x = self.invariance_relax_cf(x, xp1, t)   #ReS closed form    
         # x = self.invariance_time(x, xp1, t)   # TVS
         # x = self.invariance_time_cf(x, xp1, t)  # TVS closed form
         # x = self.invariance_relax_narrow(x, xp1, t)  # narrow passage case
@@ -1097,8 +1097,8 @@ class GaussianDiffusion(nn.Module):
 
         # train模式safe补丁
 
-      # self.safe1 = torch.tensor(0.0, device=device)  # 或者 device='cuda' / x.device
-      # self.safe2 = torch.tensor(0.0, device=device)
+        self.safe1 = torch.tensor(0.0, device=device)  # 或者 device='cuda' / x.device
+        self.safe2 = torch.tensor(0.0, device=device)
 
         return x
 
@@ -1162,6 +1162,7 @@ class GaussianDiffusion(nn.Module):
         return sample
 
     def p_losses(self, x_start, cond, t):
+        import pdb; pdb.set_trace()
         noise = torch.randn_like(x_start)
 
         x_noisy = self.q_sample(x_start=x_start, t=t, noise=noise)

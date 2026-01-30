@@ -9,6 +9,8 @@ import diffuser.datasets as datasets
 import diffuser.utils as utils
 import torch
 
+import d4rl.pointmaze.maze_model
+
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/nvidia-515
 #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/wei/.mujoco/mujoco200/bin
 #python scripts/plan_maze2d.py --config config.maze2d --dataset maze2d-large-v1
